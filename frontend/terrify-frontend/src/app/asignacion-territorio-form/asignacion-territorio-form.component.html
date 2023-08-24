@@ -1,0 +1,47 @@
+<form (ngSubmit)="guardarAsignacion()" class="mat-elevation-z2">
+  <mat-form-field class="full-width">
+    <label>Número de Territorio:</label>
+    <input type="number" matInput [(ngModel)]="numeroTerritorio" name="numeroTerritorio" min="1" max="60" required>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <label>Fecha:</label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" (change)="obtenerDiaSemana()" name="fecha" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <p>Día de la semana: {{ diaSemana }}</p>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <label>Turno:</label>
+    <mat-select matInput [(ngModel)]="turno" name="turno" required>
+      <mat-option value="Mañana">Mañana</mat-option>
+      <mat-option value="Tarde">Tarde</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <label>Responsable:</label>
+    <input type="text" matInput [(ngModel)]="responsable" [matAutocomplete]="auto" required name="responsable">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let resp of responsables" [value]="resp">{{ resp }}</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <label>Estado:</label>
+    <mat-select matInput [(ngModel)]="estado" (ngModelChange)="estadoChanged()" name="estado" required>
+      <mat-option value="completo">Completo</mat-option>
+      <mat-option value="incompleto">Incompleto</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="estado === 'incompleto'">
+    <label>Manzanas realizadas:</label>
+    <div *ngFor="let manzana of manzanas">
+      <mat-checkbox [(ngModel)]="manzana.realizada" [ngModelOptions]="{standalone: true}">{{ manzana.nombre }}</mat-checkbox>
+    </div>
+  </div>
+
+  <button type="submit" mat-raised-button color="primary">Guardar Asignación</button>
+</form>
