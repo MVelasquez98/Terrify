@@ -1,11 +1,15 @@
-/* Reducir el tamaño del calendario */
-.mat-datepicker-content {
-    font-size: 14px;
-    max-width: 300px; /* Ajusta el ancho según tu preferencia */
+#daterow {
+  justify-content: center;
+  display: flex;
+  margin: 0 auto;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
   }
-  
-  /* Alinear el calendario al centro */
-  .mat-calendar {
-    margin: 0 auto;
+
+  .full-width {
+    width: 100%;
   }
-  

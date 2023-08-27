@@ -1,9 +1,36 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCardModule} from '@angular/material/card';
+import { MatSidenavModule } from "@angular/material/sidenav"
 
 @Component({
   selector: 'app-asignacion-territorio-form',
   templateUrl: './asignacion-territorio-form.component.html',
-  styleUrls: ['./asignacion-territorio-form.component.css']
+  styleUrls: ['./asignacion-territorio-form.component.css'],
+  standalone:true,
+  imports:[    MatAutocompleteModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
+    MatCardModule,
+    MatSidenavModule]
 })
 export class AsignacionTerritorioFormComponent {
   numeroTerritorio: number;
