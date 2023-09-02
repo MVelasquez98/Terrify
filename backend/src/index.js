@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const connection = require('../config/db');
 const responsableRoutes = require('./routes/responsableRoutes');
@@ -12,11 +13,8 @@ connection.connect(err => {
       console.log('Conexión exitosa a la base de datos');
     }
   });
-  
+app.use(cors());
 // Rutas
-app.get('/', (req, res) => {
-  res.send('¡Hola, mundo!');
-});
 app.use('/responsables', responsableRoutes);
 
 
