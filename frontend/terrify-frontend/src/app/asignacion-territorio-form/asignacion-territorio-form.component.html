@@ -2,7 +2,7 @@
   <form (ngSubmit)="guardarAsignacion()" class="example-form">
     <mat-form-field class="full-width">
       <label>Número de Territorio:</label>
-      <input type="number" matInput [(ngModel)]="numeroTerritorio" name="numeroTerritorio" min="1" max="60" maxlength="2" required>
+      <input type="number" (change)="territorioChanged()" matInput [(ngModel)]="numeroTerritorio" name="numeroTerritorio" min="1" max="60" maxlength="2" required>
     </mat-form-field>
 
     <mat-form-field class="full-width">

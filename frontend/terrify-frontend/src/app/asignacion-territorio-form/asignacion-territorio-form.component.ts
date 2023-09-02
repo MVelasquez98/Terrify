@@ -16,6 +16,8 @@ import { NgFor, AsyncPipe } from '@angular/common';
 import { Observable, startWith, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ResponsableService } from '../services/responsable/responsable.service';
+import { TerritorioService } from '../services/territorio/territorio.service';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-asignacion-territorio-form',
@@ -52,13 +54,9 @@ export class AsignacionTerritorioFormComponent {
   responsable: string;
   responsables: string[] = [];
   estado: string = 'completo';
-  manzanas: { nombre: string, realizada: boolean }[] = [
-    { nombre: 'Manzana 1', realizada: false },
-    { nombre: 'Manzana 2', realizada: false },
-    { nombre: 'Manzana 3', realizada: false }
-  ];
+  manzanas: { nombre: string, realizada: boolean }[] = [];
   picker: any;
-  constructor(private responsableService: ResponsableService) {
+  constructor(private responsableService: ResponsableService, private territorioService: TerritorioService) {
     this.numeroTerritorio = 1;
     this.fecha = '';
     this.diaSemana = '';
@@ -100,11 +98,22 @@ export class AsignacionTerritorioFormComponent {
   }
 
   estadoChanged() {
+    this.territorioChanged()
     if (this.estado === 'incompleto') {
       this.manzanas.forEach(manzana => manzana.realizada = false);
     }
   }
-
+  territorioChanged() {
+    this.territorioService.obtenerManzanasPorTerritorio(this.numeroTerritorio).subscribe(
+      (manzanas: { nombre: string, realizada: boolean }[]) => {
+        this.manzanas = manzanas;
+      },
+      (error) => {
+        console.error('Error al obtener las manzanas:', error);
+      }
+    );
+  }
+  
   guardarAsignacion() {
     // Aquí puedes implementar la lógica para guardar la asignación en la API
     // Utiliza los valores de las propiedades para enviar la información

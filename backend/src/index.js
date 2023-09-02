@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const connection = require('../config/db');
 const responsableRoutes = require('./routes/responsableRoutes');
+const territorioRoutes = require('./routes/territorioRoutes');
 const port = 3000;
 
 // Conectarse a la base de datos
@@ -16,6 +17,7 @@ connection.connect(err => {
 app.use(cors());
 // Rutas
 app.use('/responsables', responsableRoutes);
+app.use('/territorios', territorioRoutes);
 
 
 // Inicia el servidor

@@ -4,7 +4,11 @@ const ResponsableService = {
   getAllHabilitados: async () => {
     try {
       const result = await ResponsableModel.findAllHabilitados();
-      return result;
+      const responsables = result[0].map(item => ({
+        id: item.idResponsable,
+        nombreCompleto: item.nombreCompleto
+      }));
+      return responsables;
     } catch (error) {
       throw error;
     }
