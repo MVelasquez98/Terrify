@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,6 +12,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import { MatSidenavModule } from "@angular/material/sidenav"
+import { NgFor, AsyncPipe } from '@angular/common';
+import { Observable, startWith, map } from 'rxjs';
 
 @Component({
   selector: 'app-asignacion-territorio-form',
@@ -30,7 +32,14 @@ import { MatSidenavModule } from "@angular/material/sidenav"
     BrowserAnimationsModule,
     MatGridListModule,
     MatCardModule,
-    MatSidenavModule]
+    MatSidenavModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    NgFor,
+    AsyncPipe,]
 })
 export class AsignacionTerritorioFormComponent {
   numeroTerritorio: number;
@@ -52,6 +61,22 @@ export class AsignacionTerritorioFormComponent {
     this.diaSemana = '';
     this.turno = '';
     this.responsable = '';
+  }
+
+  myControl = new FormControl('');
+  filteredReponsables!: Observable<string[]>;
+
+  ngOnInit() {
+    this.filteredReponsables = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.responsables.filter(option => option.toLowerCase().includes(filterValue));
   }
   obtenerDiaSemana() {
     const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];

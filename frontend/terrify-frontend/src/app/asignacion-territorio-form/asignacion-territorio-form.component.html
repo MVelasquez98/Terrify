@@ -2,12 +2,12 @@
   <form (ngSubmit)="guardarAsignacion()" class="example-form">
     <mat-form-field class="full-width">
       <label>Número de Territorio:</label>
-      <input type="number" matInput [(ngModel)]="numeroTerritorio" name="numeroTerritorio" min="1" max="60" required>
+      <input type="number" matInput [(ngModel)]="numeroTerritorio" name="numeroTerritorio" min="1" max="60" maxlength="2" required>
     </mat-form-field>
 
     <mat-form-field class="full-width">
       <label>Fecha:</label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" (change)="obtenerDiaSemana()" name="fecha" required>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" (dateChange)="obtenerDiaSemana()" name="fecha" required>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <p>Día de la semana: {{ diaSemana }}</p>
@@ -23,9 +23,9 @@
 
     <mat-form-field class="full-width">
       <label>Responsable:</label>
-      <input type="text" matInput [(ngModel)]="responsable" [matAutocomplete]="auto" required name="responsable">
+      <input type="text" matInput [(ngModel)]="responsable" [matAutocomplete]="auto" required name="responsable"  [formControl]="myControl">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let resp of responsables" [value]="resp">{{ resp }}</mat-option>
+        <mat-option *ngFor="let resp of filteredReponsables | async" [value]="resp">{{ resp }}</mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
