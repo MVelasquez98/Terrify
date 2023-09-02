@@ -14,6 +14,8 @@ import {MatCardModule} from '@angular/material/card';
 import { MatSidenavModule } from "@angular/material/sidenav"
 import { NgFor, AsyncPipe } from '@angular/common';
 import { Observable, startWith, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ResponsableService } from '../services/responsable/responsable.service';
 
 @Component({
   selector: 'app-asignacion-territorio-form',
@@ -46,8 +48,9 @@ export class AsignacionTerritorioFormComponent {
   fecha: string;
   diaSemana: string;
   turno: string;
+  responsableId: number | null = null;
   responsable: string;
-  responsables: string[] = ['Responsable 1', 'Responsable 2', 'Responsable 3'];
+  responsables: string[] = [];
   estado: string = 'completo';
   manzanas: { nombre: string, realizada: boolean }[] = [
     { nombre: 'Manzana 1', realizada: false },
@@ -55,14 +58,13 @@ export class AsignacionTerritorioFormComponent {
     { nombre: 'Manzana 3', realizada: false }
   ];
   picker: any;
-  constructor() {
+  constructor(private responsableService: ResponsableService) {
     this.numeroTerritorio = 1;
     this.fecha = '';
     this.diaSemana = '';
     this.turno = '';
     this.responsable = '';
   }
-
   myControl = new FormControl('');
   filteredReponsables!: Observable<string[]>;
 
@@ -71,12 +73,25 @@ export class AsignacionTerritorioFormComponent {
       startWith(''),
       map(value => this._filter(value || '')),
     );
+    this.obtenerListaResponsables();
   }
-
+  obtenerListaResponsables() {
+    this.responsableService.obtenerResponsables().subscribe(
+      (data: any[]) => {
+        this.responsables = data.map(item => item.nombreCompleto);
+      },
+      (error) => {
+        console.error('Error al obtener la lista de responsables:', error);
+      }
+    );
+  }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.responsables.filter(option => option.toLowerCase().includes(filterValue));
+  }
+  seleccionarResponsable(responsable: any) {
+    this.responsableId = responsable.id;
   }
   obtenerDiaSemana() {
     const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];

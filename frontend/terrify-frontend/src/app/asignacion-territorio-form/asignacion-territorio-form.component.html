@@ -25,7 +25,7 @@
       <label>Responsable:</label>
       <input type="text" matInput [(ngModel)]="responsable" [matAutocomplete]="auto" required name="responsable"  [formControl]="myControl">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let resp of filteredReponsables | async" [value]="resp">{{ resp }}</mat-option>
+        <mat-option (onSelectionChange)="seleccionarResponsable(resp)" *ngFor="let resp of filteredReponsables | async" [value]="resp">{{ resp }}</mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
